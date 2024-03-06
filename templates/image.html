@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Steganography</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #FFD3E0, #D3FFCE, #E1D3FF, #FFE0D3);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 1s ease forwards;
+        margin-bottom: 20px; /* Add margin to create space between containers */
+    }
+    input[type="file"] {
+        display: none;
+    }
+    label {
+        display: block;
+        margin-top: 20px;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+    }
+    label span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    label .icon {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+    .record-button, .stop-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .upload-button {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .recording-indicator {
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    h1 {
+        margin-top: 0;
+        margin-left: 50px;
+        color: black;
+        margin-bottom: 50px;
+        font-size: 52px;
+        animation: slideIn 1s ease forwards;
+    }
+    h2 {
+        margin-top: 15px;
+        color: #333;
+        font-size: 32px;
+    }
+
+    img {
+        margin-top: 10px;
+        background: none;
+        max-width: 20px;
+        height: auto;
+    }
+
+    .flex-container {
+    display: flex;
+    gap: 75px; /* Gap between containers */
+    }
+
+    .flex-item {
+        flex: 1;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+</head>
+<body>
+    <h1>Image Steganography</h1>
+    <div class="flex-container">
+        <div class="flex-item" style="margin-right: 75px;">
+            <div class="container">
+                <div>
+                    <h2>Cover Image</h2>
+                    <input type="file" id="coverImage" accept="Image/*">
+                    <img src="D:\Steganography\static\file.gif" style="margin-top: 3px;">
+                    <label for="coverImage" class="upload-button">Upload Image</label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-item" style="margin-left: -15px;">
+            <div class="container">
+                <div>
+                    <h2>Secret Image</h2>
+                    <input type="file" id="secretImage" accept="Image/*">
+                    <img src="D:\Steganography\static\file.gif" style="margin-top: 3px;">   
+                    <label for="secretImage" class="upload-button">Upload Image</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

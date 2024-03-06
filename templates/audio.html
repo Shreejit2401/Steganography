@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speech Steganography</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #FFD3E0, #D3FFCE, #E1D3FF, #FFE0D3);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 1s ease forwards;
+        margin-bottom: 20px; /* Add margin to create space between containers */
+    }
+    input[type="file"] {
+        display: none;
+    }
+    .upload-button {
+        display: block;
+        margin-top: 20px;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+    }
+    .upload-button span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .upload-button .icon {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+
+    .upload-button {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .download-button{
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;        
+    }
+    
+    h1 {
+        margin-top: 0;
+        margin-left: 50px;
+        color: black;
+        margin-bottom: 50px;
+        font-size: 52px;
+        animation: slideIn 1s ease forwards;
+    }
+    h2 {
+        margin-top: 15px;
+        color: #333;
+        font-size: 32px;
+    }
+
+    img {
+        margin-top: 10px;
+        background: none;
+        max-width: 20px;
+        height: auto;
+    }
+
+    button {
+        background-image: linear-gradient(135deg, #ff8a00, #e52e71);
+        color: white;
+        padding: 16px 40px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 20px;
+        transition: background-image 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeIn 1s ease forwards;
+    }
+
+    button:hover {
+        background-image: linear-gradient(135deg, #e52e71, #ff8a00);
+        transform: scale(1.05); /* Increase scale on hover */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 1); /* Add a subtle box shadow on hover */
+    }
+
+    button:active {
+        transform: scale(0.95); /* Slight scale down when clicked */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 10); /* Increase box shadow intensity when clicked */
+    }
+    
+    .flex-container {
+    display: flex;
+    gap: 75px; /* Gap between containers */
+    }
+
+    .flex-item {
+        flex: 1;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .after-click {
+        display: none;
+    }
+
+    .after-click .flex-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 100px;
+    }
+
+    .after-click .flex-item {
+        flex: 1;
+    }
+
+    .after-click .container {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+    }
+
+</style>
+</head>
+<body>
+    <h1>Speech Steganography</h1>
+    <div class="flex-container">
+        <div class="flex-item" style="margin-right: 75px;">
+            <div class="container">
+                <div>
+                    <h2>Cover Audio</h2>
+                    <input type="file" name="cover_audio" id="coverAudioInput" accept="audio/*">
+                    <img src="{{ url_for('static', filename='file.gif') }}" alt="Upload GIF">
+                    <label for="coverAudioInput" class="upload-button">Upload Audio</label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-item" style="margin-left: -15px;">
+            <div class="container">
+                <div>
+                    <h2>Secret Audio</h2>
+                    <input type="file" name="secret_audio" id="secretAudioInput" accept="audio/*">
+                    <img src="{{ url_for('static', filename='file.gif') }}" alt="Upload GIF">   
+                    <label for="secretAudioInput" class="upload-button">Upload Audio</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="after-click" style="display: none;">
+        <div class="flex-container">
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Cover Audio</h2>
+                        <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF">   
+                        <a id="coverDownload" class="download-button" download>Download</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Secret Audio</h2>
+                        <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF">
+                        <a id="secretDownload" class="download-button" download>Download</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Encoded Audio</h2>
+                        <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF">
+                        <a id="stegoDownload" class="download-button" download>Download</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Decoded Audio</h2>
+                        <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF">
+                        <a id="decodedDownload" class="download-button" download>Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="hideButton">Hide Now!</button>
+    <button id="goBackButton" style="display: none;">Go Back?</button>
+
+    <script>
+        
+        document.getElementById("hideButton").addEventListener("click", function() {
+            // Check if both files are uploaded
+            const coverFile = document.getElementById("coverAudioInput").files[0];
+            const secretFile = document.getElementById("secretAudioInput").files[0];
+            if (!coverFile || !secretFile) {
+                alert("Please upload both Cover and Secret audio files before hiding.");
+                return;
+            }
+
+            document.querySelector(".flex-container").style.display = "none";
+            document.querySelector(".after-click").style.display = "block";
+            this.style.display = "none";
+            document.getElementById("goBackButton").style.display = "inline-block";
+            
+            // Create FormData object to send files
+            const formData = new FormData();
+            formData.append('cover_audio', coverFile);
+            formData.append('secret_audio', secretFile);
+
+            // Create AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ url_for("audio_hide") }}', true);
+
+            // Handle response
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    // Update HTML to display download buttons
+                    document.getElementById("coverDownload").href = response.cover_audio_url;
+                    document.getElementById("secretDownload").href = response.secret_audio_url;
+                    document.getElementById("stegoDownload").href = response.stego_audio_url;
+                    document.getElementById("decodedDownload").href = response.decoded_audio_url;
+                    // Show the after-click div
+                } 
+                else {
+                    // Handle error response (if needed)
+                    console.error("Error executing Python script:", xhr.statusText);
+                }
+            };
+
+            // Send request
+            xhr.send(formData);
+        });
+
+
+        document.getElementById("goBackButton").addEventListener("click", function() {
+            document.querySelector(".flex-container").style.display = "flex";
+            document.querySelector(".after-click").style.display = "none";
+            document.getElementById("hideButton").style.display = "inline-block";
+            this.style.display = "none";
+        });
+
+        document.getElementById("coverAudioInput").addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                document.getElementById("coverAudioDownload").style.display = "block";
+                document.querySelector('.container h2').innerText = file.name;
+                document.querySelector('.upload-button').innerText = file.name;
+                document.getElementById("coverAudioDownloadBtn").addEventListener("click", function() {
+                    const url = URL.createObjectURL(file);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = file.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                });
+            }
+        });
+
+        document.getElementById("secretAudioInput").addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                document.getElementById("secretAudioDownload").style.display = "block";
+                document.querySelectorAll('.container h2')[1].innerText = file.name;
+                document.querySelectorAll('.upload-button')[1].innerText = file.name;
+                document.getElementById("secretAudioDownloadBtn").addEventListener("click", function() {
+                    const url = URL.createObjectURL(file);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = file.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                });
+            }
+        });
+
+        document.getElementById("afterClickCoverAudioDownloadBtn").addEventListener("click", function() {
+            const file = document.getElementById("coverAudioInput").files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }
+        });
+
+        document.getElementById("afterClickSecretAudioDownloadBtn").addEventListener("click", function() {
+            const file = document.getElementById("secretAudioInput").files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }
+        });
+    </script>
+
+
+</body>
+</html>
