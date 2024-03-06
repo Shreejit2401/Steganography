@@ -2,7 +2,7 @@ import json
 
 with open('merged_dictionary.json', 'r') as file:
     d = json.load(file)
-print(len(list(d.items())))
+# print(len(list(d.items())))
 new_pairs = {
         "this": "apple",
         "that": "dog",
@@ -89,30 +89,30 @@ new_pairs = {
         # Add more prepositions and words as needed
     }
 d.update(new_pairs)
-print(len(list(d.items())))
+# print(len(list(d.items())))
 
 
-with open('merged_dictionary.json', 'w') as file:
-    json.dump(d, file)
+# with open('merged_dictionary.json', 'w') as file:
+#     json.dump(d, file)
 
-# def first_replace_words(input_str):
-#     words = input_str.split()
-#     word_dict = d
+def first_replace_words(input_str):
+    words = input_str.split()
+    word_dict = d
 
-#     replaced_words = [word_dict.get(word, word) for word in words]  
-#     return ' '.join(replaced_words)  
+    replaced_words = [word_dict.get(word, word) for word in words]  
+    return ' '.join(replaced_words)  
 
-# def revert_words(input_str):
-#     reverse_word_dict = {v: k for k, v in d.items()}
-#     words = input_str.split()  
-#     replaced_words = [reverse_word_dict.get(word, word) for word in words]  
-#     return ' '.join(replaced_words)  
+def revert_words(input_str):
+    reverse_word_dict = {v: k for k, v in d.items()}
+    words = input_str.split()  
+    replaced_words = [reverse_word_dict.get(word, word) for word in words]  
+    return ' '.join(replaced_words)  
 
 
-# input_str = input()
+input_str = input()
 
-# output_str = first_replace_words(input_str)
-# print("first encrypted(Cover generated)::--> ",output_str)
+output_str = first_replace_words(input_str)
+print("first encrypted(Cover generated)::--> ",output_str)
 
-# recovered = revert_words(output_str)
-# print("Got orginial back::--> ",recovered)
+recovered = revert_words(output_str)
+print("Got orginial back::--> ",recovered)
