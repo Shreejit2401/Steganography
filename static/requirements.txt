@@ -1,0 +1,58 @@
+absl-py==2.1.0
+astunparse==1.6.3
+cachetools==5.3.3
+certifi==2024.2.2
+charset-normalizer==3.3.2
+click @ file:///C:/b/abs_f9ihnt72pu/croot/click_1698129847492/work
+colorama @ file:///C:/b/abs_a9ozq0l032/croot/colorama_1672387194846/work
+dm-tree==0.1.8
+Flask @ file:///C:/b/abs_efc024w7fv/croot/flask_1702980041157/work
+flatbuffers==24.3.7
+gast==0.5.4
+google-auth==2.28.2
+google-auth-oauthlib==1.2.0
+google-pasta==0.2.0
+grpcio==1.62.1
+h5py==3.10.0
+idna==3.6
+importlib-metadata @ file:///C:/b/abs_c1egths604/croot/importlib_metadata-suite_1704813568388/work
+itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
+Jinja2 @ file:///C:/b/abs_f7x5a8op2h/croot/jinja2_1706733672594/work
+keras==2.15.0
+libclang==16.0.6
+Markdown==3.5.2
+markdown-it-py==3.0.0
+MarkupSafe @ file:///C:/b/abs_ecfdqh67b_/croot/markupsafe_1704206030535/work
+mdurl==0.1.2
+mkl-fft @ file:///C:/b/abs_19i1y8ykas/croot/mkl_fft_1695058226480/work
+mkl-random @ file:///C:/b/abs_edwkj1_o69/croot/mkl_random_1695059866750/work
+mkl-service==2.4.0
+ml-dtypes==0.2.0
+namex==0.0.7
+numpy @ file:///C:/b/abs_c1ywpu18ar/croot/numpy_and_numpy_base_1708638681471/work/dist/numpy-1.26.4-cp39-cp39-win_amd64.whl#sha256=f284633067fde4bb078a09085a1c9e99a3218c129f5312b7b3d76c9340442a25
+oauthlib==3.2.2
+opt-einsum==3.3.0
+packaging==23.2
+pillow==10.2.0
+protobuf==4.25.3
+pyasn1==0.5.1
+pyasn1-modules==0.3.0
+Pygments==2.17.2
+requests==2.31.0
+requests-oauthlib==1.3.1
+rich==13.7.1
+rsa==4.9
+scipy==1.11.4
+six==1.16.0
+tensorboard==2.15.2
+tensorboard-data-server==0.7.2
+tensorflow==2.15.0
+tensorflow-estimator==2.15.0
+tensorflow-intel==2.15.0
+tensorflow-io-gcs-filesystem==0.31.0
+termcolor==2.4.0
+typing_extensions==4.10.0
+urllib3==2.2.1
+Werkzeug @ file:///C:/b/abs_3901hwqcw0/croot/werkzeug_1706210134718/work
+wrapt==1.14.1
+zipp @ file:///C:/b/abs_b0beoc27oa/croot/zipp_1704206963359/work
