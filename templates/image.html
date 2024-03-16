@@ -15,7 +15,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
+        overflow: auto;
     }
     .container {
         background: rgba(255, 255, 255, 0.9);
@@ -46,19 +46,6 @@
         font-size: 24px;
         margin-right: 10px;
     }
-    .record-button, .stop-button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 10px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
     .upload-button {
         background-color: #008CBA;
         border: none;
@@ -72,10 +59,21 @@
         cursor: pointer;
         border-radius: 5px;
     }
-    .recording-indicator {
-        font-size: 18px;
+
+    .download-button{
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
         margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;        
     }
+
     h1 {
         margin-top: 0;
         margin-left: 50px;
@@ -93,8 +91,30 @@
     img {
         margin-top: 10px;
         background: none;
-        max-width: 20px;
-        height: auto;
+    }
+
+    button {
+        background-image: linear-gradient(135deg, #ff8a00, #e52e71);
+        color: white;
+        padding: 16px 40px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 20px;
+        transition: background-image 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeIn 1s ease forwards;
+    }
+
+    button:hover {
+        background-image: linear-gradient(135deg, #e52e71, #ff8a00);
+        transform: scale(1.05); /* Increase scale on hover */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 1); /* Add a subtle box shadow on hover */
+    }
+
+    button:active {
+        transform: scale(0.95); /* Slight scale down when clicked */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 10); /* Increase box shadow intensity when clicked */
     }
 
     .flex-container {
@@ -127,17 +147,38 @@
             transform: translateY(0);
         }
     }
+
+    .after-click {
+        display: none;
+    }
+
+    .after-click .flex-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 100px;
+    }
+
+    .after-click .flex-item {
+        flex: 1;
+    }
+
+    .after-click .container {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+    }
 </style>
 </head>
 <body>
     <h1>Image Steganography</h1>
+    
     <div class="flex-container">
         <div class="flex-item" style="margin-right: 75px;">
             <div class="container">
                 <div>
                     <h2>Cover Image</h2>
                     <input type="file" id="coverImage" accept="Image/*">
-                    <img src="D:\Steganography\static\file.gif" style="margin-top: 3px;">
+                    <img src="{{ url_for('static', filename='file.gif') }}" style="max-width: 20px; height: auto;">
                     <label for="coverImage" class="upload-button">Upload Image</label>
                 </div>
             </div>
@@ -146,12 +187,112 @@
             <div class="container">
                 <div>
                     <h2>Secret Image</h2>
-                    <input type="file" id="secretImage" accept="Image/*">
-                    <img src="D:\Steganography\static\file.gif" style="margin-top: 3px;">   
+                    <input type="file" id="secretImage" accept="Image/*"> 
+                    <img src="{{ url_for('static', filename='file.gif') }}" style="max-width: 20px; height: auto;"> 
                     <label for="secretImage" class="upload-button">Upload Image</label>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="after-click" style="display: none;">
+        <div class="flex-container">
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Cover Image</h2>
+                        <img src="{{ url_for('uploads', filename='cover.jpg') }}" alt="Cover Image" style="max-width: 144px; height: auto; margin-bottom: 10px;">
+                    </div>
+                    <div style="display: flex; align-items: center; margin-left: 80px;">
+                        <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF" style="max-width: 20px; height: auto; margin-right: 10px;">   
+                        <a id="coverDownload" class="download-button" download>Download</a>
+                    </div>                    
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Secret Image</h2>
+                        <div>
+                            <img src="{{ url_for('uploads', filename='secret.jpg') }}" alt="Secret Image" style="max-width: 144px; height: auto; margin-bottom: 10px;">
+                        </div>
+                        <div style="display: flex; align-items: center; margin-left: 80px;">
+                            <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF" style="max-width: 20px; height: auto; margin-right: 10px;">   
+                            <a id="secretDownload" class="download-button" download>Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Encoded Image</h2>
+                        <div>
+                            <img src="{{ url_for('static', filename='encoded_image.jpg') }}" alt="Encoded Image" style="max-width: 144px; height: 100px; width: 144px; margin-bottom: 10px;">
+                        </div>
+                        <div style="display: flex; align-items: center; margin-left: 80px;">
+                            <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF" style="max-width: 20px; height: auto; margin-right: 10px;">   
+                            <a id="stegoDownload" class="download-button" download>Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="container">
+                    <div>
+                        <h2>Decoded Decoded</h2>
+                        <div>
+                            <img src="{{ url_for('static', filename='decoded_image.jpg') }}" alt="Decoded Image" style="max-width: 144px; height: 100px; width: 144px; margin-bottom: 10px;">
+                        </div>
+                        <div style="display: flex; align-items: center; margin-left: 80px;">
+                            <img src="{{ url_for('static', filename='dwnld.gif') }}" alt="Download GIF" style="max-width: 20px; height: auto; margin-right: 10px;">   
+                            <a id="decodedDownload" class="download-button" download>Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="hideButton">Hide Now!</button>
+    <button id="goBackButton" style="display: none;">Go Back?</button>
+
 </body>
+
+<script>
+    document.getElementById("hideButton").addEventListener("click", function() {
+        const coverFile = document.getElementById("coverImage").files[0];
+        const secretFile = document.getElementById("secretImage").files[0];
+        if (!coverFile || !secretFile) {
+            alert("Please upload both Cover and Secret images before hiding.");
+            return;
+        }
+        
+        document.querySelector(".flex-container").style.display = "none";
+        document.querySelector(".after-click").style.display = "block";
+        document.getElementById("hideButton").style.display = "none";
+        document.getElementById("goBackButton").style.display = "inline-block";
+
+        const formData = new FormData();
+        formData.append('cover_image', coverFile);
+        formData.append('secret_image', secretFile);
+
+        fetch('/image_hide', {
+            method: 'POST',
+            body: formData
+        })
+
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the images.');
+        });
+    });
+    
+    document.getElementById("goBackButton").addEventListener("click", function() {
+        document.querySelector(".flex-container").style.display = "flex";
+        document.querySelector(".after-click").style.display = "none";
+        document.getElementById("hideButton").style.display = "inline-block";
+        this.style.display = "none";
+    });
+</script>
 </html>
